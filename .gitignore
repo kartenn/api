@@ -1,0 +1,34 @@
+newrelic_agent.log
+#---------------------------------
+# Directories
+#---------------------------------
+**/node_modules/
+logs/
+coverage
+
+#---------------------------------
+# IDE generated
+#---------------------------------
+.idea/
+.vscode/
+.project
+*.iml
+
+#---------------------------------
+# OS generated
+#---------------------------------
+__MACOSX/
+.DS_Store
+Thumbs.db
+stress-test/config/production.json
+stress-test/credentials.csv
+config/local.js
+config/*.pem
+config/*.pub
+coverage
+.nyc_output
+
+#---------------------------------
+# twgit
+#---------------------------------
+.twgit_features_subject
