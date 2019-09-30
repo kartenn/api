@@ -10,8 +10,11 @@ var knex = require('knex')({
   client: 'pg',
   connection: config.get('db.master')
 });
+const serverConfig = config.get('server');
 
 const api = createApiGateway({
+  port: process.env.NODE_PORT || serverConfig.get('port'),
+  host: serverConfig.get('host'),
   auth: false,
   graphql: {
     graphqlSchema,
