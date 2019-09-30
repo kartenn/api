@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "configure": "configure",
+    "db:create": "node create-database.js",
+    "migrate:up": "knex migrate:latest",
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "db:create": "node create-database.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Kartenn team",
   "license": "ISC",
@@ -15,6 +17,9 @@
     "@thefork/node-logger": "git+ssh://git@github.com:lafourchette/node-logger.git#v1.5.0",
     "@thefork/node-platform": "git+ssh://git@github.com/lafourchette/node-platform.git#v2.7.2",
     "apollo-server-hapi": "^2.1.0",
+    "config": "^3.2.2",
+    "db-migrate": "^0.11.6",
+    "db-migrate-pg": "^1.0.0",
     "express": "^4.17.1",
     "graphql": "^14.2.0",
     "graphql-middleware": "^4.0.1",
@@ -27,5 +32,8 @@
     "path": "^0.12.7",
     "pg": "^7.12.1",
     "vision": "^5.4.4"
+  },
+  "devDependencies": {
+    "node-configure": "github:lafourchette/node-configure#v0.2.0"
   }
 }
