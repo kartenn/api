@@ -23,6 +23,7 @@
     "db-migrate-pg": "^1.0.0",
     "express": "^4.17.1",
     "graphql": "^14.2.0",
+    "graphql-disable-introspection": "^1.1.0",
     "graphql-middleware": "^4.0.1",
     "graphql-shield": "^6.1.0",
     "graphql-tools": "^4.0.5",

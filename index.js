@@ -1,5 +1,6 @@
 'use strict';
 
+/**
 const express = require("express");
 const app = express();
 
@@ -22,10 +23,9 @@ const port = process.env.PORT || 9999;
 app.listen(port, () => {
   console.log("Hello world listening on port", port);
 });
+ **/
 
-/**
  const { api } = require('./server');
 
  // start the api
- api.start(); -> Error 500 ?
-**/
+ api.start(); /// -> Error 500 ?

@@ -2,7 +2,7 @@
 
 module.exports = {
   Query: {
-    helloWord: async (root, {input}, {}) => {
+    helloWorld: async (root, {input}, {}) => {
       const target = process.env.TARGET || "World";
       console.log("Hello world received a request.");
 

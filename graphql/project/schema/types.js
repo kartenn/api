@@ -5,7 +5,7 @@ module.exports = [`
         id: ID
     }
     extend type Query {
-      helloWord: String
+      helloWorld: String
     }
     extend type Mutation {
       test: String
