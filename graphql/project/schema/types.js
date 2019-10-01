@@ -2,10 +2,22 @@
 
 module.exports = [`
     type Project {
-        id: ID
+        projectUuid: ID
+        name: String
+        urlRepository: String
+        idRepository: Int
+        codeOwners: [String]
+        languages: [String]
+        slackRoom: String
+        devAlias: String
+        hasReadMe: Boolean
+        type: String
+        createdTs: String
+        updatedTs: String
     }
     extend type Query {
       helloWorld: String
+      listProjects: [Project]
     }
     extend type Mutation {
       test: String
