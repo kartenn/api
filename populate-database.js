@@ -96,22 +96,32 @@ const populateDB = async () => {
 
 
     await Promise.all(_.map(nodes, async (node) => {
-      try {
-        const res = await Project.findOne({ name: node['name'] });
-        if (res) {
-          const upd = await Project.update(res.project_uuid, {
-            name: node['name'],
-            url_repository: node['url'],
-          });
-        } else {
-          const ins = await Project.create({
-            project_uuid: uuidv4(),
-            name: node['name'],
-            url_repository: node['url'],
-          });
+      let type = node['name'].substring(node['name'].lastIndexOf('-') + 1);
+
+      if (['service', 'gateway', 'api', 'worker'].indexOf(type) === -1) {
+        type = null;
+      }
+
+      if (type !== null) {
+        try {
+          const res = await Project.findOne({ name: node['name'] });
+          if (res) {
+            const upd = await Project.update(res.project_uuid, {
+              name: node['name'],
+              url_repository: node['url'],
+            });
+          } else {
+            const ins = await Project.create({
+              project_uuid: uuidv4(),
+              name: node['name'],
+              url_repository: node['url'],
+              code_owners: node['codeOwners'] ? node['codeOwners'].text.split('\n').filter(c => c !== '') : [],
+              type
+            });
+          }
+        } catch (e) {
+          console.log('Error:', e)
         }
-      } catch (e) {
-        console.log('Error:', e)
       }
     }));
 
