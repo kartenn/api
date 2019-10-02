@@ -133,8 +133,10 @@ const populateDB = async () => {
               type
             });
           }
-          const { methods, events } = await docAdapter(node['name']);
-          await documentation.save({ name: node['name'] }, methods, events);
+          const doc = await docAdapter(node['name']);
+          if (doc) {
+            await documentation.save({ name: node['name'] }, _.get('doc.methods'), _.get('doc.events'));
+          }
         } catch (e) {
           console.log('Error:', e)
         }
