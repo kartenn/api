@@ -91,11 +91,21 @@ const populateDB = async () => {
           }
         }
       }
-    `
+    `;
 
-    const result = await githubClient.query({ query, variables: { first: 50, after: null, } });
-    const nodes = jsonpath.query(result, '$.data.organization.repositories.edges[*].node');
+    let hasNextPage;
+    let after = null;
+    let repos = [];
+    do {
+      const data = (await githubClient.query({ query, variables: { first: 100, after } })).data;
 
+      hasNextPage = data.organization.repositories.pageInfo.hasNextPage;
+      after = data.organization.repositories.pageInfo.endCursor;
+
+      repos = repos.concat(data.organization.repositories.edges);
+    } while (hasNextPage === true);
+
+    const nodes = repos.map(r => r.node);
 
     await Promise.all(_.map(nodes, async (node) => {
       let type = node['name'].substring(node['name'].lastIndexOf('-') + 1);
@@ -111,6 +121,8 @@ const populateDB = async () => {
             const upd = await Project.update(res.project_uuid, {
               name: node['name'],
               url_repository: node['url'],
+              code_owners: node['codeOwners'] ? node['codeOwners'].text.split('\n').filter(c => c !== '') : [],
+              type
             });
           } else {
             const ins = await Project.create({
