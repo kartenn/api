@@ -35,4 +35,10 @@ module.exports = {
   graphql: {
     introspection: true,
   },
+  github: {
+    api: {
+      accessToken: '3fd7ec3e9eb9f4a5936b3282a16714864a90e817',
+      baseUri: 'https://api.github.com/graphql',
+    },
+  },
 };
