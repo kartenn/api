@@ -12,6 +12,8 @@ const { HttpLink } = require('apollo-link-http');
 const { InMemoryCache } = require('apollo-cache-inmemory');
 
 const Project = require('./lib/models/project');
+const docAdapter = require('./lib/adapter/doc-adapter');
+const documentation = require('./lib/helpers/documentation');
 
 const githubClient = new ApolloClient({
   cache: new InMemoryCache(),
@@ -119,6 +121,8 @@ const populateDB = async () => {
               type
             });
           }
+          const { methods, events } = await docAdapter(node['name']);
+          await documentation.save({ name: node['name'] }, methods, events);
         } catch (e) {
           console.log('Error:', e)
         }
