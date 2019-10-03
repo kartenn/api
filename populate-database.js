@@ -24,7 +24,7 @@ const githubClient = new ApolloClient({
     },
     fetch: fetch,
   }),
-})
+});
 
 const configWithoutDB = {
   client: config.get('db.master.client'),
@@ -135,7 +135,7 @@ const populateDB = async () => {
 
     await Promise.all(nodes.map(async (node) => {
       let type = node['name'].substring(node['name'].lastIndexOf('-') + 1);
-      
+
       if (['service', 'gateway', 'api', 'worker', 'webhook'].indexOf(type) === -1) {
         type = null;
       }

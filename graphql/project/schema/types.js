@@ -1,6 +1,13 @@
 'use strict';
 
 module.exports = [`
+  scalar JSON
+  scalar JSONObject
+
+  type Method {
+    name: String
+    response: JSONObject
+  }
   type Project {
     projectUuid: ID
     name: String
@@ -15,6 +22,7 @@ module.exports = [`
     createdTs: String
     updatedTs: String
     diskUsage: Int
+    methods: [Method]
   }
   extend type Query {
     getProject(projectUuid: ID): Project

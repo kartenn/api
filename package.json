@@ -33,6 +33,7 @@
     "graphql-shield": "^6.1.0",
     "graphql-tag": "^2.10.1",
     "graphql-tools": "^4.0.5",
+    "graphql-type-json": "^0.3.0",
     "hapi": "^17.8.4",
     "hapi-swagger": "^10.1.2",
     "https": "^1.0.0",
