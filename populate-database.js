@@ -58,6 +58,8 @@ const populateDB = async () => {
                 name
                 url
                 createdAt
+                updatedAt
+                diskUsage
 
                 codeOwners: object(expression: "master:.github/CODEOWNERS") {
                   ... on Blob {
@@ -110,7 +112,7 @@ const populateDB = async () => {
     await Promise.all(_.map(nodes, async (node) => {
       let type = node['name'].substring(node['name'].lastIndexOf('-') + 1);
 
-      if (['service', 'gateway', 'api', 'worker'].indexOf(type) === -1) {
+      if (['service', 'gateway', 'api', 'worker', 'webhook'].indexOf(type) === -1) {
         type = null;
       }
 
@@ -122,7 +124,10 @@ const populateDB = async () => {
               name: node['name'],
               url_repository: node['url'],
               code_owners: node['codeOwners'] ? node['codeOwners'].text.split('\n').filter(c => c !== '') : [],
-              type
+              type,
+              created_ts: node['createdAt'],
+              updated_ts: node['updatedAt'],
+              disk_usage: node['diskUsage']
             });
           } else {
             const ins = await Project.create({
@@ -130,7 +135,10 @@ const populateDB = async () => {
               name: node['name'],
               url_repository: node['url'],
               code_owners: node['codeOwners'] ? node['codeOwners'].text.split('\n').filter(c => c !== '') : [],
-              type
+              type,
+              created_ts: node['createdAt'],
+              updated_ts: node['updatedAt'],
+              disk_usage: node['diskUsage']
             });
           }
           const doc = await docAdapter(node['name']);
