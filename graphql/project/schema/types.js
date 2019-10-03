@@ -4,9 +4,16 @@ module.exports = [`
   scalar JSON
   scalar JSONObject
 
+  type Param {
+    name: String
+    description: String
+    required: Boolean
+    type: String
+  }
   type Method {
     name: String
     response: JSONObject
+    params: [Param]
   }
   type Project {
     projectUuid: ID
