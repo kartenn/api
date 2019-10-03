@@ -40,6 +40,7 @@ module.exports = [`
   }
   extend type Query {
     getProject(projectUuid: ID): Project
+    getProjectsByNames(projectNames: [String]): [Project]
     listProjects: [Project]
   }
   extend type Mutation {

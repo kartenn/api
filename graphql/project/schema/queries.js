@@ -11,6 +11,11 @@ module.exports = {
 
       return mapKeys(await Project.findOneWithMethodsAndEvents(snakeCaseInput), (value, key) => camelCase(key));
     },
+    getProjectsByNames: async (root, input, {}) => {
+      const projects = await Project.findManyByName(input.projectNames);
+
+      return map(projects, object => mapKeys(object, (value, key) => camelCase(key)));
+    },
     listProjects: async (root, input, {}) => {
       const projects = await Project.findAll();
       return map(projects, object => mapKeys(object, (value, key) => camelCase(key)));
