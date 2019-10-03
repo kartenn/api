@@ -24,7 +24,7 @@ const githubClient = new ApolloClient({
     },
     fetch: fetch,
   }),
-})
+});
 
 const configWithoutDB = {
   client: config.get('db.master.client'),

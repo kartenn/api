@@ -8,8 +8,8 @@ module.exports = {
   Query: {
     getProject: async (root, input, {}) => {
       const snakeCaseInput = mapKeys(input, (value, key) => snakeCase(key));
-      const project = await Project.findOne(snakeCaseInput);
-      return mapKeys(project, (value, key) => camelCase(key));
+
+      return mapKeys(await Project.findOneWithMethodsAndEvents(snakeCaseInput), (value, key) => camelCase(key));
     },
     listProjects: async (root, input, {}) => {
       const projects = await Project.findAll();

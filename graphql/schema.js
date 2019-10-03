@@ -5,6 +5,7 @@ const glob = require('glob');
 
 const { makeExecutableSchema } = require('graphql-tools');
 const { applyMiddleware } = require('graphql-middleware');
+const { GraphQLJSON, GraphQLJSONObject } = require('graphql-type-json');
 
 
 const queriesPath = path.join(__dirname, './**/queries.js');
@@ -29,6 +30,10 @@ const getResolvers = (globPath) => {
 const typeDefs = getTypeDefs(typeDefsPath);
 
 const resolvers = [
+  {
+    JSON: GraphQLJSON,
+    JSONObject: GraphQLJSONObject
+  },
   ...getResolvers(mutationsPath),
   ...getResolvers(queriesPath),
 ];
