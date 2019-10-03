@@ -35,6 +35,8 @@ module.exports = [`
     diskUsage: Int
     methods: [Method]
     events: [Event]
+    calls: [String]
+    called: [String]
   }
   extend type Query {
     getProject(projectUuid: ID): Project
