@@ -132,10 +132,11 @@ const populateDB = async () => {
     const nodes = repos.map(r => r.node);
 
     let methodsToInsert = [];
+    let eventsToInsert = [];
 
     await Promise.all(nodes.map(async (node) => {
       let type = node['name'].substring(node['name'].lastIndexOf('-') + 1);
-      
+
       if (['service', 'gateway', 'api', 'worker', 'webhook'].indexOf(type) === -1) {
         type = null;
       }
@@ -176,6 +177,13 @@ const populateDB = async () => {
                  parameters: m.parameters
                }))
             );
+            eventsToInsert = eventsToInsert.concat(doc
+              .events
+              .map(e => ({
+                event: {name: e.name, project_uuid: project.project_uuid},
+                parameters: e.parameters
+              }))
+            );
           } else {
             console.log(`No doc found for project ${node.name}`);
           }
@@ -186,6 +194,7 @@ const populateDB = async () => {
     }));
 
     await documentation.saveAll(methodsToInsert);
+    await documentation.saveAllEvent(eventsToInsert);
 
     process.exit(0);
   } catch (err) {
