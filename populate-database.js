@@ -4,7 +4,6 @@ const _ = require('lodash');
 const config = require('config');
 const fetch = require('node-fetch');
 const gql = require('graphql-tag');
-const jsonpath = require('jsonpath');
 const knex = require('knex');
 const uuidv4 = require('uuid/v4');
 const { ApolloClient } = require('apollo-client');
@@ -166,6 +165,8 @@ const populateDB = async () => {
           const doc = await docAdapter(node['name']);
           if (doc) {
             await documentation.save({ name: node['name'] }, doc.methods, doc.events);
+          } else {
+            console.log(`No doc found for project ${node.name}`);
           }
         } catch (e) {
           console.log('Error:', e)
