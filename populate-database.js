@@ -58,6 +58,7 @@ const populateDB = async () => {
               node {
                 name
                 url
+                databaseId
                 createdAt
                 updatedAt
                 diskUsage
@@ -152,6 +153,7 @@ const populateDB = async () => {
             project = await Project.update(res.project_uuid, {
               name: node['name'],
               url_repository: node['url'],
+              id_repository: node['databaseId'],
               code_owners: node['codeOwners'] ? node['codeOwners'].text.split('\n').filter(c => c !== '') : [],
               type,
               created_ts: node['createdAt'],
@@ -163,6 +165,7 @@ const populateDB = async () => {
               project_uuid: uuidv4(),
               name: node['name'],
               url_repository: node['url'],
+              id_repository: node['databaseId'],
               code_owners: node['codeOwners'] ? node['codeOwners'].text.split('\n').filter(c => c !== '') : [],
               type,
               created_ts: node['createdAt'],
@@ -179,7 +182,7 @@ const populateDB = async () => {
             dependencies,
           });
           nameUuidMap[node['name']] = project.project_uuid;
-          
+
           if (doc) {
             methodsToInsert = methodsToInsert.concat(doc
               .methods
