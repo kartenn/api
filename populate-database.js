@@ -165,7 +165,7 @@ const populateDB = async () => {
           }
           const doc = await docAdapter(node['name']);
           if (doc) {
-            await documentation.save({ name: node['name'] }, _.get('doc.methods'), _.get('doc.events'));
+            await documentation.save({ name: node['name'] }, doc.methods, doc.events);
           }
         } catch (e) {
           console.log('Error:', e)
