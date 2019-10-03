@@ -15,6 +15,10 @@ module.exports = [`
     response: JSONObject
     params: [Param]
   }
+  type Event {
+    name: String
+    params: [Param]
+  }
   type Project {
     projectUuid: ID
     name: String
@@ -30,6 +34,7 @@ module.exports = [`
     updatedTs: String
     diskUsage: Int
     methods: [Method]
+    events: [Event]
   }
   extend type Query {
     getProject(projectUuid: ID): Project
