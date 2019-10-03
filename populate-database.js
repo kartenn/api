@@ -130,7 +130,9 @@ const populateDB = async () => {
 
     const nodes = repos.map(r => r.node);
 
-    await Promise.all(_.map(nodes, async (node) => {
+    let methodsToInsert = [];
+
+    await Promise.all(nodes.map(async (node) => {
       let type = node['name'].substring(node['name'].lastIndexOf('-') + 1);
 
       if (['service', 'gateway', 'api', 'worker', 'webhook'].indexOf(type) === -1) {
@@ -140,8 +142,9 @@ const populateDB = async () => {
       if (type !== null) {
         try {
           const res = await Project.findOne({ name: node['name'] });
+          let project;
           if (res) {
-            const upd = await Project.update(res.project_uuid, {
+            project = await Project.update(res.project_uuid, {
               name: node['name'],
               url_repository: node['url'],
               code_owners: node['codeOwners'] ? node['codeOwners'].text.split('\n').filter(c => c !== '') : [],
@@ -151,7 +154,7 @@ const populateDB = async () => {
               disk_usage: node['diskUsage']
             });
           } else {
-            const ins = await Project.create({
+            project = await Project.create({
               project_uuid: uuidv4(),
               name: node['name'],
               url_repository: node['url'],
@@ -164,7 +167,13 @@ const populateDB = async () => {
           }
           const doc = await docAdapter(node['name']);
           if (doc) {
-            await documentation.save({ name: node['name'] }, doc.methods, doc.events);
+            methodsToInsert = methodsToInsert.concat(doc
+               .methods
+               .map(m => ({
+                 method: {...m.method, project_uuid: project.project_uuid},
+                 parameters: m.parameters
+               }))
+            );
           } else {
             console.log(`No doc found for project ${node.name}`);
           }
@@ -173,6 +182,8 @@ const populateDB = async () => {
         }
       }
     }));
+
+    await documentation.saveAll(methodsToInsert);
 
     process.exit(0);
   } catch (err) {
