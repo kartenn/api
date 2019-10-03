@@ -14,10 +14,10 @@ module.exports = [`
     type: String
     createdTs: String
     updatedTs: String
+    diskUsage: Int
   }
   extend type Query {
-    helloWorld: String
-    getProject(idRepository: ID): Project
+    getProject(projectUuid: ID): Project
     listProjects: [Project]
   }
   extend type Mutation {

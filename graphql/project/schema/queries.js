@@ -6,12 +6,6 @@ const Project = require('../../../lib/models/project');
 
 module.exports = {
   Query: {
-    helloWorld: async (root, input, {}) => {
-      const target = process.env.TARGET || "World";
-      console.log("Hello world received a request.");
-
-      return `Hello ${target}!`;
-    },
     getProject: async (root, input, {}) => {
       const snakeCaseInput = mapKeys(input, (value, key) => snakeCase(key));
       const project = await Project.findOne(snakeCaseInput);
