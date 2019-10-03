@@ -13,6 +13,7 @@ const { InMemoryCache } = require('apollo-cache-inmemory');
 const Project = require('./lib/models/project');
 const docAdapter = require('./lib/adapter/doc-adapter');
 const documentation = require('./lib/helpers/documentation');
+const getDependencies = require('./lib/helpers/getDependencies');
 
 const githubClient = new ApolloClient({
   cache: new InMemoryCache(),
@@ -132,7 +133,7 @@ const populateDB = async () => {
 
     await Promise.all(_.map(nodes, async (node) => {
       let type = node['name'].substring(node['name'].lastIndexOf('-') + 1);
-
+      
       if (['service', 'gateway', 'api', 'worker', 'webhook'].indexOf(type) === -1) {
         type = null;
       }
@@ -163,6 +164,7 @@ const populateDB = async () => {
             });
           }
           const doc = await docAdapter(node['name']);
+          const dependencies = getDependencies(node['installerLocal'].text);
           if (doc) {
             await documentation.save({ name: node['name'] }, doc.methods, doc.events);
           } else {
