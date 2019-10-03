@@ -14,6 +14,7 @@ const Project = require('./lib/models/project');
 const docAdapter = require('./lib/adapter/doc-adapter');
 const documentation = require('./lib/helpers/documentation');
 const getDependencies = require('./lib/helpers/getDependencies');
+const ParamModel = require('./lib/models/param');
 
 const githubClient = new ApolloClient({
   cache: new InMemoryCache(),
@@ -193,6 +194,7 @@ const populateDB = async () => {
       }
     }));
 
+    await ParamModel.deleteAll();
     await documentation.saveAll(methodsToInsert);
     await documentation.saveAllEvent(eventsToInsert);
 
