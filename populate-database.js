@@ -88,6 +88,28 @@ const populateDB = async () => {
                     text
                   }
                 }
+                
+                configDefault: object(expression: "master:config/default.js") {
+                  ... on Blob {
+                    text
+                  }
+                }
+    
+                installerLocal: object(
+                  expression: "master:installer/local.js.tpl"
+                ) {
+                  ... on Blob {
+                    text
+                  }
+                }
+    
+                installerDefault: object(
+                  expression: "master:installer/default.json.tpl"
+                ) {
+                  ... on Blob {
+                    text
+                  }
+                }
               }
             }
           }
