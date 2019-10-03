@@ -152,7 +152,11 @@ const populateDB = async () => {
             project = await Project.update(res.project_uuid, {
               name: node['name'],
               url_repository: node['url'],
-              code_owners: node['codeOwners'] ? node['codeOwners'].text.split('\n').filter(c => c !== '') : [],
+              code_owners: node['codeOwners'] ? node['codeOwners']
+                 .text
+                 .split('\n')
+                 .filter(c => c !== '' && c.trim().substring(0, 1) !== '#')
+                 : [],
               type,
               created_ts: node['createdAt'],
               updated_ts: node['updatedAt'],
