@@ -100,6 +100,12 @@ const populateDB = async () => {
                     text
                   }
                 }
+                
+                installerDefaultJs: object(expression: "master:installer/default.js.tpl") {
+                  ... on Blob {
+                    text
+                  }
+                }
     
                 installerLocal: object(
                   expression: "master:installer/local.js.tpl"
@@ -109,7 +115,7 @@ const populateDB = async () => {
                   }
                 }
     
-                installerDefault: object(
+                installerDefaultJson: object(
                   expression: "master:installer/default.json.tpl"
                 ) {
                   ... on Blob {
@@ -185,7 +191,7 @@ const populateDB = async () => {
           }
 
           const doc = await docAdapter(node['name']);
-          const dependencies = getDependencies([node['installerLocal'], node['installerDefault']]);
+          const dependencies = getDependencies([node['installerLocal'], node['installerDefaultJson'], node['installerDefaultJs'], node['configDefault']]);
 
           callsToInsert.push({
             name: node['name'],
