@@ -1,3 +1,8 @@
 const populateAll = require('./lib/handlers/populate-all');
-populateAll();
-process.exit(0);
+
+async function populateDb() {
+  await populateAll();
+  process.exit(0);
+}
+
+populateDb();
