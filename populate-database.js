@@ -62,6 +62,10 @@ const populateDB = async () => {
                 createdAt
                 updatedAt
                 diskUsage
+                
+                primaryLanguage {
+                  name
+                }
 
                 codeOwners: object(expression: "master:.github/CODEOWNERS") {
                   ... on Blob {
@@ -160,6 +164,7 @@ const populateDB = async () => {
                  .filter(c => c !== '' && c.trim().substring(0, 1) !== '#')
                  : [],
               type,
+              languages: [node['primaryLanguage']['name']],
               created_ts: node['createdAt'],
               updated_ts: node['updatedAt'],
               disk_usage: node['diskUsage']
@@ -172,6 +177,7 @@ const populateDB = async () => {
               id_repository: node['databaseId'],
               code_owners: node['codeOwners'] ? node['codeOwners'].text.split('\n').filter(c => c !== '') : [],
               type,
+              languages: [node['primaryLanguage']['name']],
               created_ts: node['createdAt'],
               updated_ts: node['updatedAt'],
               disk_usage: node['diskUsage']
