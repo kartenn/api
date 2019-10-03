@@ -167,7 +167,7 @@ const populateDB = async () => {
             });
           }
           const doc = await docAdapter(node['name']);
-          const dependencies = getDependencies(node['installerLocal'].text);
+          const dependencies = getDependencies([node['installerLocal'], node['installerDefault']]);
           if (doc) {
             methodsToInsert = methodsToInsert.concat(doc
                .methods
