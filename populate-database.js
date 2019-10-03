@@ -134,6 +134,8 @@ const populateDB = async () => {
 
     let methodsToInsert = [];
     let eventsToInsert = [];
+    let callsToInsert = [];
+    let nameUuidMap = {}; // <string, uuid>
 
     await Promise.all(nodes.map(async (node) => {
       let type = node['name'].substring(node['name'].lastIndexOf('-') + 1);
@@ -168,15 +170,23 @@ const populateDB = async () => {
               disk_usage: node['diskUsage']
             });
           }
+
           const doc = await docAdapter(node['name']);
           const dependencies = getDependencies([node['installerLocal'], node['installerDefault']]);
+
+          callsToInsert.push({
+            name: node['name'],
+            dependencies,
+          });
+          nameUuidMap[node['name']] = project.project_uuid;
+          
           if (doc) {
             methodsToInsert = methodsToInsert.concat(doc
-               .methods
-               .map(m => ({
-                 method: {...m.method, project_uuid: project.project_uuid},
-                 parameters: m.parameters
-               }))
+              .methods
+              .map(m => ({
+                method: {...m.method, project_uuid: project.project_uuid},
+                parameters: m.parameters
+              }))
             );
             eventsToInsert = eventsToInsert.concat(doc
               .events
@@ -197,6 +207,7 @@ const populateDB = async () => {
     await ParamModel.deleteAll();
     await documentation.saveAll(methodsToInsert);
     await documentation.saveAllEvent(eventsToInsert);
+    await documentation.saveAllProjectCalls(callsToInsert, nameUuidMap);
 
     process.exit(0);
   } catch (err) {
