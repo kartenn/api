@@ -179,7 +179,7 @@ const populateDB = async () => {
           }
 
           const doc = await docAdapter(node['name']);
-          const dependencies = getDependencies([node['installerLocal'], node['installerDefault']]);
+          const dependencies = getDependencies([node['installerLocal'], node['installerDefault'], node['configDefault']]);
 
           callsToInsert.push({
             name: node['name'],
