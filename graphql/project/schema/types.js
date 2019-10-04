@@ -14,6 +14,7 @@ module.exports = [`
     name: String
     response: JSONObject
     params: [Param]
+    type: String
   }
   type Event {
     name: String
