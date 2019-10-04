@@ -5,7 +5,7 @@ const TheforkLogger = require('@thefork/node-logger');
 module.exports = {
   server: {
     host: '0.0.0.0',
-    port: 9999
+    port: 9990
   },
   logger: {
     logsDir: 'logs',
