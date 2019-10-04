@@ -27,6 +27,7 @@
     "db-migrate": "^0.11.6",
     "db-migrate-pg": "^1.0.0",
     "express": "^4.17.1",
+    "get-graphql-schema": "^2.1.2",
     "graphql": "^14.2.0",
     "graphql-disable-introspection": "^1.1.0",
     "graphql-middleware": "^4.0.1",
@@ -44,6 +45,7 @@
     "node-fetch": "^2.6.0",
     "path": "^0.12.7",
     "pg": "^7.12.1",
+    "request": "^2.88.0",
     "url": "^0.11.0",
     "uuid": "^3.3.3",
     "vision": "^5.4.4"
